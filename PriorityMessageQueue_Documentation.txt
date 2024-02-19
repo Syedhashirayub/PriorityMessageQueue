@@ -1,0 +1,51 @@
+Priority Message Queue Implementation Documentation
+==================================================
+
+Overview of the Implemented Solution:
+-------------------------------------
+This solution implements a multi-threaded priority message queue in Python. The queue allows multiple threads to send and receive messages with varying priorities. It uses Python's threading and queue modules to ensure thread safety and priority handling. The system consists of a priority queue class with enqueue, dequeue, and peek functionalities, alongside a thread pool for concurrent message processing.
+
+1. Implementation of the Priority Message Queue (PriorityMessageQueue class): This class uses Python's queue.PriorityQueue and threading's Condition to create a thread-safe priority queue with methods for enqueueing, dequeueing, peeking at messages, and checking if the queue is empty.
+
+2. Implementation of the Thread Pool: The thread pool is implemented using concurrent.futures.ThreadPoolExecutor, managing multiple worker threads that process messages.
+
+3. Message Sending Function (enqueue_messages function): This function enqueues a specified number of messages into the queue, each with a random priority. It demonstrates how multiple messages can be added to the queue, simulating a real-world scenario where messages might arrive at random.
+
+Test Cases:
+
+1. Priority Collision (test_priority_collision): Tests how the queue handles multiple messages with the same priority.
+2. Empty Queue Handling (test_empty_queue_dequeue): Tests the queue's behavior when attempting to dequeue from an empty queue.
+3. Peek Functionality (test_peek_consistency): Tests the ability to peek at the highest priority message without removing it from the queue.
+4. Main Program: The main function ties everything together, setting up the thread pool, running test cases, and simulating message enqueueing.
+
+
+
+Description of Data Structures and Algorithms Used:
+---------------------------------------------------
+1. Priority Queue: Utilizes Python's `queue.PriorityQueue`, ensuring that items are sorted based on their priority.
+2. Threading: Uses Python's `threading` module to manage multiple threads for sending, receiving, and processing messages.
+3. Condition Variable: Implemented for thread synchronization, ensuring only one thread accesses the queue at a time and efficiently manages thread wake-up on new message arrival.
+
+Instructions for Building and Running the Program:
+---------------------------------------------------
+1. Ensure Python is installed on your system.
+2. Save the script in a '.py' file.
+3. Run the script using Python. For example, in a terminal or command prompt, navigate to the script's directory and run `python script_name.py`.
+
+Explanation of Test Cases and Their Expected Outcomes:
+------------------------------------------------------
+1. Priority Handling: Messages with different priorities are enqueued and the dequeue operation should return the highest priority message.
+2. Peek Functionality: Tests that peeking returns the highest priority message without removing it from the queue.
+3. Empty Queue Handling: Ensures that dequeue operation waits (blocks) when the queue is empty and resumes correctly on message arrival.
+4. Concurrent Processing: Multiple threads enqueue and dequeue messages, testing the queue's thread safety and concurrency handling.
+
+
+For additional notes or insights gained during the implementation process of the multi-threaded priority message queue, consider the following points:
+
+1. Thread Safety and Synchronization: Implementing the priority queue required careful consideration of thread safety. Utilizing threading.Condition ensured that access to the queue is synchronized, preventing race conditions.
+
+2. Efficient Waiting with Condition Variables: Using condition variables allowed threads to wait efficiently for certain conditions (like a non-empty queue) before proceeding, which is more efficient than busy-waiting or polling.
+
+3. Priority Queue Behavior with Identical Priorities: Testing revealed that when multiple messages have the same priority, they are dequeued in the order they were enqueued. This insight is important for understanding how the Python PriorityQueue handles priority collisions.
+
+4. Challenges in Concurrency: One of the challenges faced was ensuring that the program behaved as expected under concurrent operations, especially when threads were enqueuing and dequeuing messages simultaneously.
