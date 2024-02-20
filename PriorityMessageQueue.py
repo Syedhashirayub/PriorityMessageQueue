@@ -3,6 +3,11 @@ import threading
 from concurrent.futures import ThreadPoolExecutor
 import random
 
+import logging
+
+# Set up logging configuration
+logging.basicConfig(level=logging.INFO, format='%(asctime)s [Thread %(thread)d]: %(message)s')
+
 class PriorityMessageQueue:
     def __init__(self):
         self.queue = queue.PriorityQueue()
@@ -32,9 +37,10 @@ class PriorityMessageQueue:
 def worker(message_queue):
     while True:
         message = message_queue.dequeue_message()
-        if message is None:  
+        if message is None:
             break
-        print(f"Processing message: {message}")
+        logging.info(f"Processing message: {message}")
+
 
 def enqueue_messages(message_queue, num_messages=100):
     for _ in range(num_messages):
